@@ -10,7 +10,7 @@ module Av
         @command_name = "ffmpeg"
       end
       
-      def input_concat list
+      def filter_concat list
         index_file = Tempfile.new('ffmpeg-concat')
         File.open(index_file, 'w') do |file|
           list.each do |item|
@@ -19,6 +19,10 @@ module Av
         end
         @input_params << "concat -i #{index_file.path}"
         self
+      end
+      
+      def filter_volume vol
+        @input_params << "-af volume=#{vol}"
       end
     end
   end
