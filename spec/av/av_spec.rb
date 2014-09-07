@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Av do
   it { expect(Av.cli).to be_kind_of Av::Commands::Base }
-  it { expect { Av.cli.run }.to raise_error Av::InvalidInputFile }
+  it { expect { Av.cli.run }.to raise_error Av::CommandError }
   
   describe 'run' do
     let(:subject) { Av.cli }
@@ -12,10 +12,7 @@ describe Av do
     before do
       subject.add_source File.new(Dir.pwd + '/spec/support/assets/sample.mp4')
     end
-    describe 'with no output file' do
-      it { expect {subject.run}.to raise_error Av::InvalidOutputFile }
-    end
-    
+
     describe 'with a valid output file' do
       before do
         subject.add_source source

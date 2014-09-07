@@ -7,9 +7,16 @@ module Av
       attr_accessor :command_name
       attr_accessor :input_params
       attr_accessor :output_params
+      attr_accessor :default_params
+
       attr_accessor :source
       attr_accessor :destination
-      attr_accessor :default_params
+      
+      def initialize
+        @input_params = []
+        @output_params = []
+        @default_params = []
+      end
       
       def add_source src
         @source = src
@@ -20,20 +27,19 @@ module Av
       end
       
       def command_line
-        raise Av::InvalidInputFile if @source.nil?
-        raise Av::InvalidOutputFile if @destination.nil?
-        
+        raise Av::CommandError if (@source.nil? && @destination.nil?) || @command_name.nil?
+
         parameters = []
         parameters << @command_name
-        parameters << @default_params
+        parameters << @default_params if @default_params
         if @input_params
-          parameters << @input_params.map { |k,v| "-#{k.to_s} #{v} " if !v.nil? && (v.is_a?(Numeric) || !v.empty?) }
+          parameters << @input_params.join(' ')
         end
-        parameters << %Q(-i "#{@source}")
+        parameters << %Q(-i "#{@source}") if @source
         if @output_params
-          parameters << @output_params.map { |k,v| "-#{k.to_s} #{v} " if !v.nil? && (v.is_a?(Numeric) || !v.empty?) }
+          parameters << @output_params.join(' ')
         end
-        parameters << %Q(-y "#{@destination}")
+        parameters << %Q(-y "#{@destination}") if @destination
         parameters.flatten.compact.join(" ").strip.squeeze(" ")
       end
     
