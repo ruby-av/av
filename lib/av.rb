@@ -18,10 +18,10 @@ module Av
     true
   end
   
-  def run line
+  def run line, codes = [0]
     Av.log("Running command: #{line}")
     begin
-      Cocaine::CommandLine.new(line).run
+      Cocaine::CommandLine.new(line, "", expected_outcodes: codes).run
     rescue Cocaine::ExitStatusError => e
       raise Av::CommandError, "error while running command #{line}: #{e}"
     end
