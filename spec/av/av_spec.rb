@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Av do
   it { expect(Av.cli).to be_kind_of Av::Cli }
+  it { expect(Av.cli).not_to eq Av.cli }
   it { expect { Av.cli.run }.to raise_error Av::CommandError }
   
   describe 'run' do

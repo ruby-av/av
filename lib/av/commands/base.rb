@@ -13,9 +13,9 @@ module Av
       attr_accessor :destination
       
       def initialize
-        @input_params = []
-        @output_params = []
-        @default_params = []
+        reset_input_filters
+        reset_output_filters
+        reset_default_filters
       end
       
       def add_source src
@@ -24,6 +24,18 @@ module Av
       
       def add_destination dest
         @destination = dest
+      end
+      
+      def reset_input_filters
+        @input_params = []
+      end
+      
+      def reset_output_filters
+        @output_params = []
+      end
+      
+      def reset_default_filters
+        @output_params = []
       end
       
       def add_input_filters hash
