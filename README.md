@@ -1,6 +1,7 @@
-# Av
+[![Build Status](https://travis-ci.org/ruby-av/av.svg?branch=master)](https://travis-ci.org/ruby-av/av)
+# AV
 
-TODO: Write a gem description
+A Ruby Programmable interface for 
 
 ## Installation
 
