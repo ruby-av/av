@@ -26,6 +26,20 @@ module Av
         @destination = dest
       end
       
+      def add_input_filters hash
+        hash.each do |k,v|
+          @input_params << "-#{k} #{v}"
+        end
+        self
+      end
+      
+      def add_output_filters hash
+        hash.each do |k,v|
+          @output_params << "-#{k} #{v}"
+        end
+        self
+      end
+      
       def command_line
         raise Av::CommandError if (@source.nil? && @destination.nil?) || @command_name.nil?
 

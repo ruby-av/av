@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Av do
-  it { expect(Av.cli).to be_kind_of Av::Commands::Base }
+  it { expect(Av.cli).to be_kind_of Av::Cli }
   it { expect { Av.cli.run }.to raise_error Av::CommandError }
   
   describe 'run' do

@@ -23,6 +23,7 @@ module Av
       
       def filter_volume vol
         @input_params << "-af volume=#{vol}"
+        self
       end
     end
   end

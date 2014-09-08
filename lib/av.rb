@@ -1,16 +1,15 @@
 require "av/version"
 require "av/exceptions"
-require "cocaine"
+require "av/cli"
 require "av/commands/ffmpeg"
 require "av/commands/avconv"
+require "cocaine"
 
 module Av
   extend self
   
   def cli
-    return @cli if @cli
-    @cli = load_av_library
-    @cli
+    ::Av::Cli.new
   end
   
   def quiet
@@ -40,20 +39,5 @@ module Av
       when /false/
         return false
     end
-  end
-  
-  def load_av_library
-    found = []
-    found << 'ffmpeg' if detect_command('ffmpeg')
-    found << 'avconv' if detect_command('avprobe')
-    Av.log("Found: #{found.inspect}")
-    if found.empty?
-      raise Av::UnableToDetect, "Unable to detect any supported library"
-    else
-      found.each do |library|
-        @cli = Object.const_get('Av').const_get('Commands').const_get(library.capitalize).new
-      end
-    end
-    @cli
   end
 end
