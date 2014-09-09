@@ -5,9 +5,10 @@ module Av
   module Commands
     class Ffmpeg < Base
       
-      def initialize
-        super
+      def initialize(options = {})
+        super(options)
         @command_name = "ffmpeg"
+        # TODO handle quite for ffmpeg
       end
       
       def filter_concat list
@@ -17,12 +18,25 @@ module Av
             file.write("file '#{item}'\n")
           end
         end
-        @input_params << "concat -i #{index_file.path}"
+        add_input_param concat: "-i #{index_file.path}"
         self
       end
       
       def filter_volume vol
-        @input_params << "-af volume=#{vol}"
+        add_input_param af: "volume=#{vol}"
+        self
+      end
+      
+      def filter_rotate degrees
+        raise ::Av::InvalidFilterParameter unless degrees % 90 == 0
+        case degrees
+          when 90
+            add_input_param vf: 'transpose=1'
+          when 180
+            add_input_param vf: 'vflip,hflip'
+          when 270
+            add_input_param vf: 'transpose=2'
+        end
         self
       end
     end

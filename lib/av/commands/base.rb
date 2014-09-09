@@ -4,18 +4,22 @@ module Av
   module Commands
     # Common features across commands
     class Base
+      attr_accessor :options
       attr_accessor :command_name
       attr_accessor :input_params
       attr_accessor :output_params
+      attr_accessor :audio_filters
+      attr_accessor :video_filters
       attr_accessor :default_params
 
       attr_accessor :source
       attr_accessor :destination
       
-      def initialize
+      def initialize(options = {})
         reset_input_filters
         reset_output_filters
         reset_default_filters
+        @options = options
       end
       
       def add_source src
@@ -27,60 +31,57 @@ module Av
       end
       
       def reset_input_filters
-        @input_params = []
+        @input_params = ParamHash.new
+        @audio_filters = ParamHash.new
+        @video_filters = ParamHash.new
       end
       
       def reset_output_filters
-        @output_params = []
+        @output_params = ParamHash.new
       end
       
       def reset_default_filters
-        @output_params = []
+        @default_params = ParamHash.new
       end
       
-      def add_input_filters hash
+      def add_input_param hash
         hash.each do |k,v|
-          @input_params << "-#{k} #{v}"
+          @input_params[k] = [] unless @input_params.has_key?(k)
+          @input_params[k] << v
         end
         self
       end
       
-      def add_output_filters hash
+      def add_output_param hash
         hash.each do |k,v|
-          @output_params << "-#{k} #{v}"
+          @output_params[k] = [] unless @output_params.has_key?(k)
+          @output_params[k] << v
         end
         self
       end
       
-      def command_line
+      def run
         raise Av::CommandError if (@source.nil? && @destination.nil?) || @command_name.nil?
 
         parameters = []
         parameters << @command_name
         parameters << @default_params if @default_params
         if @input_params
-          parameters << @input_params.join(' ')
+          parameters << @input_params.to_s
         end
         parameters << %Q(-i "#{@source}") if @source
         if @output_params
-          parameters << @output_params.join(' ')
+          parameters << @output_params.to_s
         end
         parameters << %Q(-y "#{@destination}") if @destination
-        parameters.flatten.compact.join(" ").strip.squeeze(" ")
-      end
-    
-      def run
-        Av.run(command_line)
+        command_line = parameters.flatten.compact.join(" ").strip.squeeze(" ")
+        ::Av.run(command_line)
       end
       
       def identify path
         meta = {}
         command = %Q(#{@command_name} -i "#{File.expand_path(path)}" 2>&1)
-        out = Av.run(command, [0,1])
-        # rescue Av::CommandError
-        #   # Do nothing, we know ffmpeg/avconv will complain with:
-        #   # "At least one output file must be specified"
-        # end
+        out = ::Av.run(command, [0,1])
         out.split("\n").each do |line|
           if line =~ /(([\d\.]*)\s.?)fps,/
             meta[:fps] = $1.to_i
@@ -102,6 +103,30 @@ module Av
           end
         end
         meta
+      end
+      
+      def output_format format
+        case format
+        when 'jpg', 'jpeg', 'png', 'gif' # Images
+          add_output_param 'f', 'image2'
+          add_output_param 'vframes', '1'
+        when 'webm' # WebM
+          add_output_param 'f', 'webm'
+          add_output_param 'acodec', 'libvorbis'
+          add_output_param 'vcodec', 'libvpx'
+        when 'ogv' # Ogg Theora
+          add_output_param 'f', 'ogg'
+          add_output_param 'acodec', 'libvorbis'
+          add_output_param 'vcodec', 'libtheora'
+        when 'mp4'
+          add_output_param 'acodec', 'aac'
+          add_output_param 'strict', 'experimental'
+        end
+      end
+      
+      # Children should override the following methods
+      def filter_rotate degrees
+        raise ::Av::FilterNotImplemented, 'rotate'
       end
     end  
   end

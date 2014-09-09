@@ -1,6 +1,7 @@
 require "av/version"
 require "av/exceptions"
 require "av/cli"
+require "av/param_hash"
 require "av/commands/ffmpeg"
 require "av/commands/avconv"
 require "cocaine"
@@ -8,17 +9,12 @@ require "cocaine"
 module Av
   extend self
   
-  def cli
-    ::Av::Cli.new
-  end
-  
-  def quiet
-    return @quiet if @quiet
-    true
+  def cli(options = {})
+    ::Av::Cli.new(options)
   end
   
   def run line, codes = [0]
-    Av.log("Running command: #{line}")
+    ::Av.log("Running command: #{line}")
     begin
       Cocaine::CommandLine.new(line, "", expected_outcodes: codes).run
     rescue Cocaine::ExitStatusError => e
@@ -28,16 +24,5 @@ module Av
   
   def log message
     puts "[AV] #{message}"
-  end
-  
-  def detect_command(command)
-    command = "if command -v #{command} 2>/dev/null; then echo \"true\"; else echo \"false\"; fi"
-    result = Av.run(command)
-    case result
-      when /true/
-        return true
-      when /false/
-        return false
-    end
   end
 end

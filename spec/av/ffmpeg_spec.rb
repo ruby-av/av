@@ -9,7 +9,7 @@ describe Av::Commands::Ffmpeg do
       subject.filter_concat(list)
     end
     
-    it { expect(subject.input_params.first).to include %Q(concat -i) }
+    it { expect(subject.input_params.to_s).to include %Q(concat -i) }
   end
 
   describe '.filter_volume' do
@@ -17,6 +17,6 @@ describe Av::Commands::Ffmpeg do
       subject.filter_volume('0.5')
     end
     
-    it { expect(subject.input_params.first).to eq "-af volume=0.5" }
+    it { expect(subject.input_params.to_s).to eq "-af volume=0.5" }
   end
 end
