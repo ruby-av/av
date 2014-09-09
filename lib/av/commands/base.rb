@@ -44,20 +44,28 @@ module Av
         @default_params = ParamHash.new
       end
       
-      def add_input_param hash
-        hash.each do |k,v|
-          @input_params[k] = [] unless @input_params.has_key?(k)
-          @input_params[k] << v
-        end
+      def add_input_param *param
+        p = parse_param(param)
+        ::Av.log "Adding input parameter #{p}"
+        @input_params[p[0]] = [] unless @input_params.has_key?(p[0])
+        @input_params[p[0]] << p[1]
         self
       end
       
-      def add_output_param hash
-        hash.each do |k,v|
-          @output_params[k] = [] unless @output_params.has_key?(k)
-          @output_params[k] << v
-        end
+      def set_input_params hash
+        @input_params = hash
+      end
+      
+      def add_output_param *param
+        p = parse_param(param)
+        ::Av.log "Adding output parameter #{p}"
+        @output_params[p[0]] = [] unless @output_params.has_key?(p[0])
+        @output_params[p[0]] << p[1]
         self
+      end
+      
+      def set_output_params hash
+        @output_params = hash
       end
       
       def run
@@ -127,6 +135,21 @@ module Av
       # Children should override the following methods
       def filter_rotate degrees
         raise ::Av::FilterNotImplemented, 'rotate'
+      end
+      
+      def parse_param param
+        list = []
+        if param.count == 2
+          list = param
+        elsif param.count == 1
+          case param[0].class.to_s
+          when 'Hash'
+            list[0], list[1] = param[0].to_a.flatten!
+          when 'Array'
+            list = param[0]
+          end
+        end
+        list
       end
     end  
   end
