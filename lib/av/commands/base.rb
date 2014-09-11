@@ -8,6 +8,7 @@ module Av
       attr_accessor :command_name
       attr_accessor :input_params
       attr_accessor :output_params
+      attr_accessor :output_format
       attr_accessor :audio_filters
       attr_accessor :video_filters
       attr_accessor :default_params
@@ -27,6 +28,10 @@ module Av
       end
       
       def add_destination dest
+        # infer format from extension unless format has already been set
+        if @output_format.nil?
+          output_format File.extname(dest)
+        end
         @destination = dest
       end
       
@@ -114,19 +119,20 @@ module Av
       end
       
       def output_format format
-        case format
-        when 'jpg', 'jpeg', 'png', 'gif' # Images
+        @output_format = format
+        case format.to_sym
+        when :jpg, :jpeg, :png, :gif # Images
           add_output_param 'f', 'image2'
           add_output_param 'vframes', '1'
-        when 'webm' # WebM
+        when :webm # WebM
           add_output_param 'f', 'webm'
           add_output_param 'acodec', 'libvorbis'
           add_output_param 'vcodec', 'libvpx'
-        when 'ogv' # Ogg Theora
+        when :ogv # Ogg Theora
           add_output_param 'f', 'ogg'
           add_output_param 'acodec', 'libvorbis'
           add_output_param 'vcodec', 'libtheora'
-        when 'mp4'
+        when :mp4
           add_output_param 'acodec', 'aac'
           add_output_param 'strict', 'experimental'
         end
