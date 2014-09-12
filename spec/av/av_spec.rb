@@ -14,7 +14,7 @@ describe Av do
       subject.add_source File.new(Dir.pwd + '/spec/support/assets/sample.mp4')
     end
 
-    describe 'with a valid output file' do
+    describe 'with a valid output file', focus: true do
       before do
         subject.add_source source
         subject.add_destination destination

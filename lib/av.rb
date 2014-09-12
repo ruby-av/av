@@ -1,15 +1,25 @@
 require "av/version"
 require "av/exceptions"
+require "av/logger"
 require "av/cli"
 require "av/param_hash"
 require "av/commands/ffmpeg"
 require "av/commands/avconv"
 require "cocaine"
+require "av/engine" if defined?(Rails)
 
 module Av
   extend self
+  extend Logger
+  
+  def options
+    @options ||= {
+      log: false
+    }
+  end
   
   def cli(options = {})
+    @options = options unless options.empty?
     ::Av::Cli.new(options)
   end
   
@@ -20,9 +30,5 @@ module Av
     rescue Cocaine::ExitStatusError => e
       raise Av::CommandError, "error while running command #{line}: #{e}"
     end
-  end
-  
-  def log message
-    puts "[AV] #{message}"
   end
 end
