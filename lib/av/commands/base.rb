@@ -104,8 +104,8 @@ module Av
           if line =~ /Video:(.*)/
              v = $1.to_s
              size = v.match(/\d{3,5}x\d{3,5}/).to_s
-             meta[:size] = size
-             meta[:aspect] = size.split('x').first.to_f / size.split('x').last.to_f
+             meta[:size] = size unless size.empty?
+             meta[:aspect] = size.split('x').first.to_f / size.split('x').last.to_f if meta[:size]
            end
           # Matching Duration: 00:01:31.66, start: 0.000000, bitrate: 10404 kb/s
           if line =~ /Duration:(\s.?(\d*):(\d*):(\d*\.\d*))/
@@ -115,7 +115,7 @@ module Av
             meta[:rotate] = $1.to_i
           end
         end
-        meta
+        meta unless meta.empty?
       end
       
       def output_format format

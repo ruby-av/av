@@ -5,10 +5,19 @@ describe Av::Commands::Base do
   let(:source) { File.new(Dir.pwd + '/spec/support/assets/sample.mp4').path }
   
   describe '.identify' do
-    let(:meta) { subject.identify source }
+    describe 'supported files' do
+      let(:meta) { subject.identify source }
     
-    it { expect(meta).to be_a Hash }
-    it { expect(meta.keys).to include :size, :fps, :length, :aspect }
+      it { expect(meta).to be_a Hash }
+      it { expect(meta.keys).to include :size, :fps, :length, :aspect }
+    end
+
+    describe 'unsupported files' do
+      let(:unsupported) { File.new(Dir.pwd + '/spec/support/assets/image.png').path }
+      let(:meta) { subject.identify unsupported }
+    
+      it { expect(meta).to be_nil }
+    end
   end
   
   describe '.add_input_param' do
