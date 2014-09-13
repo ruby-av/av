@@ -1,7 +1,12 @@
-[![Build Status](https://travis-ci.org/ruby-av/av.svg?branch=master)](https://travis-ci.org/ruby-av/av)
 # AV
 
 A Ruby Programmable interface for 
+
+## Status
+
+[![Build Status](https://travis-ci.org/ruby-av/av.svg?branch=master)](https://travis-ci.org/ruby-av/av)
+[![Coverage Status](https://coveralls.io/repos/ruby-av/av/badge.png?branch=master)](https://coveralls.io/r/ruby-av/av?branch=master)
+[![Code Climate](https://codeclimate.com/github/ruby-av/av/badges/gpa.svg)](https://codeclimate.com/github/ruby-av/av)
 
 ## Installation
 
@@ -19,11 +24,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+The gem provides programmable interface for ffmpeg and avconv.
+The idea is to have a common API for both CLIs.
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/av/fork )
+1. Fork it ( https://github.com/ruby-av/av/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
