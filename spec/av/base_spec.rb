@@ -9,7 +9,7 @@ describe Av::Commands::Base do
       let(:meta) { subject.identify source }
     
       it { expect(meta).to be_a Hash }
-      it { expect(meta.keys).to include :size, :fps, :length, :aspect }
+      it { expect(meta.keys).to include :size, :aspect }
     end
 
     describe 'unsupported files' do

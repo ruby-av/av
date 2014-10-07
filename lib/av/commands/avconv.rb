@@ -7,7 +7,7 @@ module Av
       def initialize(options = {})
         super(options)
         @command_name = 'avconv'
-        @default_params['loglevel'] = 'quiet' unless options[:quite] == false
+        @default_params['loglevel'] = 'quiet' unless options[:quiet] == false
       end
       
       def filter_concat list
