@@ -14,7 +14,8 @@ module Av
   
   def options
     @options ||= {
-      log: false
+      log: true,
+      quiet: true,
     }
   end
   
