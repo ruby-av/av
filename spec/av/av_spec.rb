@@ -18,7 +18,6 @@ describe Av do
       before do
         subject.add_source source
         subject.add_destination destination
-        subject.output_format :mp4
         subject.run
       end
       
