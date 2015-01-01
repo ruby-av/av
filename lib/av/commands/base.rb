@@ -128,19 +128,19 @@ module Av
       
       def output_format format
         @output_format = format
-        case format.to_sym
-        when :jpg, :jpeg, :png, :gif # Images
+        case format.to_s
+        when /jpg$/, /jpeg$/, /png$/, /gif$/ # Images
           add_output_param 'f', 'image2'
           add_output_param 'vframes', '1'
-        when :webm # WebM
+        when /webm$/ # WebM
           add_output_param 'f', 'webm'
           add_output_param 'acodec', 'libvorbis'
           add_output_param 'vcodec', 'libvpx'
-        when :ogv # Ogg Theora
+        when /ogv$/ # Ogg Theora
           add_output_param 'f', 'ogg'
           add_output_param 'acodec', 'libvorbis'
           add_output_param 'vcodec', 'libtheora'
-        when :mp4
+        when /mp4$/
           add_output_param 'acodec', 'aac'
           add_output_param 'strict', 'experimental'
         end
