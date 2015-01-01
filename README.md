@@ -1,6 +1,6 @@
 # AV
 
-A Ruby Programmable interface for 
+A Ruby Programmable interface for FFmpeg and Libav.
 
 ## Status
 
