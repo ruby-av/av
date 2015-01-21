@@ -20,7 +20,7 @@ module Av
       end
   
       def detect_command(command)
-        command = "if command -v #{command} 2>/dev/null; then echo \"true\"; else echo \"false\"; fi"
+        command = ";if command -v #{command} 2>/dev/null; then echo \"true\"; else echo \"false\"; fi"
         result = ::Av.run(command)
         case result
           when /true/
