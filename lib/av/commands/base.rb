@@ -155,6 +155,12 @@ module Av
         raise ::Av::FilterNotImplemented, 'rotate'
       end
 
+      # ffmpeg and avconf both have the same seeking params
+      def filter_seek seek
+        add_input_param ss: seek
+        self
+      end
+
       def parse_param param
         list = []
         if param.count == 2

@@ -50,6 +50,14 @@ describe Av::Commands::Base do
     end
   end
 
+  describe '.filter_seek' do
+    before do
+      subject.filter_seek('00:00:01.11')
+    end
+
+    it { expect(subject.input_params.to_s).to eq "-ss 00:00:01.11" }
+  end
+
   describe '.run' do
     before do
       subject.add_output_param(ar: 44100)
