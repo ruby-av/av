@@ -155,6 +155,11 @@ module Av
         raise ::Av::FilterNotImplemented, 'rotate'
       end
 
+      # Children should override the following methods
+      def filter_volume vol
+        raise ::Av::FilterNotImplemented, 'volume'
+      end
+
       # ffmpeg and avconf both have the same seeking params
       def filter_seek seek
         add_input_param ss: seek
