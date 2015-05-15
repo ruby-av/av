@@ -31,11 +31,11 @@ module Av
         raise ::Av::InvalidFilterParameter unless degrees % 90 == 0
         case degrees
           when 90
-            add_input_param vf: 'transpose=1'
+            add_output_param vf: 'transpose=1'
           when 180
-            add_input_param vf: 'vflip,hflip'
+            add_output_param vf: 'vflip,hflip'
           when 270
-            add_input_param vf: 'transpose=2'
+            add_output_param vf: 'transpose=2'
         end
         self
       end

@@ -24,11 +24,11 @@ module Av
         raise ::Av::InvalidFilterParameter unless degrees % 90 == 0
         case degrees
           when 90
-            add_input_param vf: 'clock'
+            add_output_param vf: 'clock'
           when 180
-            add_input_param vf: 'vflip,hflip'
+            add_output_param vf: 'vflip,hflip'
           when 270
-            add_input_param vf: 'cclock'
+            add_output_param vf: 'cclock'
         end
       end
       
