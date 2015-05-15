@@ -8,7 +8,7 @@ module Av
       def initialize(options = {})
         super(options)
         @command_name = "ffmpeg"
-        # TODO handle quite for ffmpeg
+        @default_params['loglevel'] = 'quiet' unless options[:quiet] == false
       end
       
       def filter_concat list
