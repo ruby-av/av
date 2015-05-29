@@ -29,6 +29,7 @@ module Av
       
       def filter_rotate degrees
         raise ::Av::InvalidFilterParameter unless degrees % 90 == 0
+
         case degrees
           when 90
             add_output_param vf: 'transpose=1'
@@ -37,6 +38,7 @@ module Av
           when 270
             add_output_param vf: 'transpose=2'
         end
+
         self
       end
     end

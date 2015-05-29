@@ -180,6 +180,27 @@ module Av
         end
         list
       end
+
+      def metadata_rotate degrees
+        add_output_param :'metadata:s:v:0', "rotate=#{degrees}"
+
+        self
+      end
+
+      def filter_metadata_rotate degrees
+        filter_rotate degrees
+
+        if @source
+          current_rotate = identify(@source)[:rotate] || 0
+        else
+          ::Av.log "Source has not been set - assuming current rotation metadata is 0"
+          current_rotate = 0
+        end
+
+        metadata_rotate (current_rotate - degrees) % 360
+
+        self
+      end
     end
   end
 end
