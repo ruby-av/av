@@ -20,13 +20,21 @@ module Av
       end
   
       def detect_command(command)
-        command = "if command -v #{command} 2>/dev/null; then echo \"true\"; else echo \"false\"; fi"
+        command = self.system_based_detect_command(command)
         result = ::Av.run(command)
         case result
           when /true/
             return true
           when /false/
             return false
+        end
+      end
+
+      def system_based_detect_command(command)
+        if Gem.win_platform?
+          "#{command} -version  2>NUL && echo true || echo false"
+        else
+          "if command -v #{command} 2>/dev/null; then echo \"true\"; else echo \"false\"; fi"
         end
       end
   end
