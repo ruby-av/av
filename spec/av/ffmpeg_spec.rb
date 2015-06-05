@@ -17,6 +17,6 @@ describe Av::Commands::Ffmpeg do
       subject.filter_volume('0.5')
     end
     
-    it { expect(subject.input_params.to_s).to eq "-af volume=0.5" }
+    it { expect(subject.output_params.to_s).to eq "-af volume=0.5" }
   end
 end
