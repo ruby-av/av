@@ -31,7 +31,7 @@ describe Av::Commands::Base do
         subject.add_input_param(:k, 'value2')
         subject.add_input_param([:x, 'y'])
       end
-      it { expect(subject.input_params.to_s).to eq '-k value value1 value2 -x y' }
+      it { expect(subject.input_params.to_s).to eq '-k value,value1,value2 -x y' }
     end
   end
 
@@ -46,7 +46,7 @@ describe Av::Commands::Base do
         subject.add_output_param(:k, 'value2')
         subject.add_output_param([:x, 'y'])
       end
-      it { expect(subject.output_params.to_s).to eq '-k value value1 value2 -x y' }
+      it { expect(subject.output_params.to_s).to eq '-k value,value1,value2 -x y' }
     end
   end
 
