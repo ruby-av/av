@@ -16,7 +16,7 @@ module Av
       end
       
       def filter_volume vol
-        add_input_param af: "volume=volume=#{vol}"
+        add_output_param af: "volume=volume=#{vol}"
         self
       end
       
