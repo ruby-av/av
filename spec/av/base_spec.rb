@@ -67,5 +67,23 @@ describe Av::Commands::Base do
     it { expect { subject.run }.not_to raise_exception }
 
   end
+
+  describe '.metadata_rotate' do
+    before do
+      subject.metadata_rotate(90)
+    end
+
+    it { expect(subject.output_params.to_s).to eq '-metadata:s:v:0 rotate=90' }
+  end
+
+  describe '.filter_metadata_rotate' do
+    before do
+      subject.add_source(source)
+      subject.filter_metadata_rotate(90)
+    end
+
+    it { expect(subject.output_params.to_s).to match /-metadata:s:v:0 rotate=270/ }
+    it { expect(subject.output_params.to_s).to match /-vf (clock|transpose=1)/ }
+  end
 end
 

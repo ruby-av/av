@@ -30,6 +30,8 @@ module Av
           when 270
             add_output_param vf: 'cclock'
         end
+
+        self
       end
       
     end
