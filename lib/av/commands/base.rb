@@ -95,7 +95,7 @@ module Av
         meta = {}
         command = %Q(#{@command_name} -i "#{File.expand_path(path)}" 2>&1)
         out = ::Av.run(command, [0,1]).encode('UTF-8', 'UTF-8', invalid: :replace)
-        out.split("\n").each do |line|
+        out.encode('UTF-8', :invalid => :replace).split("\n").each do |line|
           if line =~ /(([\d\.]*)\s.?)fps,/
             meta[:fps] = $1.to_i
           end
