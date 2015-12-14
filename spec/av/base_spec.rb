@@ -83,7 +83,7 @@ describe Av::Commands::Base do
     end
 
     it { expect(subject.output_params.to_s).to match /-metadata:s:v:0 rotate=270/ }
-    it { expect(subject.output_params.to_s).to match /-vf (clock|transpose=1)/ }
+    it { expect(subject.output_params.to_s).to match /-vf '(clock|transpose=1)'/ }
   end
 end
 
