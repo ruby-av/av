@@ -134,7 +134,7 @@ module Av
       def output_format format
         @output_format = format
         case format.to_s
-        when /jpg$/, /jpeg$/, /png$/, /gif$/ # Images
+        when /jpg$/, /jpeg$/, /png$/ # Images
           add_output_param 'f', 'image2'
           add_output_param 'vframes', '1'
         when /webm$/ # WebM
