@@ -1,6 +1,6 @@
-ENV["RAILS_ENV"] = "test"
-require 'coveralls'
-Coveralls.wear!
+# frozen_string_literal: true
+
+ENV['RAILS_ENV'] = 'test'
 
 require 'rubygems'
 require 'bundler/setup'

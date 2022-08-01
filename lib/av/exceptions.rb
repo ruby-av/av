@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 module Av
-  class UnableToDetect < Exception; end
-  class CommandError < Exception; end
-  class InvalidInputFile < Exception; end
-  class InvalidOutputFile < Exception; end
-  class InvalidFilterParameter < Exception; end
-  class FilterNotImplemented < Exception; end
+  class CommandError < StandardError; end
+  class InvalidInputFile < StandardError; end
+  class InvalidOutputFile < StandardError; end
+  class InvalidFilterParameter < StandardError; end
+  class FilterNotImplemented < StandardError; end
 end
